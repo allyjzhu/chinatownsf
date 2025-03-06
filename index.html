@@ -18,10 +18,15 @@
       .mapboxgl-control-container{
         visibility: hidden;
       }
-      .mapboxgl-popup-content{
-        width: 450px;
-        background-color: darkslategray;
+      .mapboxgl-popup{
+        max-width: 5000px;
+        height: 10px;
+        background-color:gray;
       }
+      .mapboxgl-popup-tip{
+        display: none;
+      }
+
       #title{
         position: fixed;
         font-size: 25pt;
@@ -36,12 +41,27 @@
         font-size: 14pt;
         font-family: Arial, Helvetica, sans-serif;
         transition: ease-in-out 2s;
-        color: darkolivegreen;
         top: 0%;
         left: 50%;
         transform: translateX(-50%);
       }
+      #index button{
+        position: fixed;
+        font-size: 12pt;
+        font-family: Arial, Helvetica, sans-serif;
+        transition: ease-in-out 2s;
+        top: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
+      #aboutbutton{
+        margin-left: 100px;
+      }
+
+      #indexbutton{
+        margin-left: -100px;
+      }
   #map{
     height: 100%;
     width: 100%;
@@ -52,11 +72,12 @@
   
   .marker {
   background-size: cover;
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: darkslategray;
 }
+
 
 .marker:hover {
   background-color: darkred;
@@ -68,7 +89,7 @@ ul {
   columns: 4;
   -webkit-columns: 4;
   -moz-columns: 4;
-  top: 5px;
+  top: 30px;
   height: 100%;
   position: relative;
 }
@@ -83,6 +104,10 @@ li:hover{
   color: purple;
   cursor: pointer;
 }
+a{
+           text-decoration: none; 
+           color: black;
+        }
 
   </style>
   <body>
@@ -90,8 +115,10 @@ li:hover{
         <p id = "text"></p>
     </div>
     <div id="index" style="visibility: hidden;">
-      <p id ="indexbutton" onclick="showIndex()">Index</p>
-     
+      <div id="buttoncontainer">
+      <button id ="indexbutton" onclick="showIndex()">Index</button>
+      <button id ="aboutbutton"><a href="about.html">About</a></button>
+    </div>
         <ul id="search">
           <div id ="patchett">
           </div>
@@ -101,15 +128,6 @@ li:hover{
   </div>
     <div id ='map'>
     </div>
-    <div id='streetview' style="visibility:hidden;">
-      <iframe id="irame"
-    width="600"
-    height="450"
-    frameborder="0" style="border:0"
-    referrerpolicy="no-referrer-when-downgrade"
-    src="https://www.google.com/maps/embed/v1/MAP_MODE?key=YOUR_API_KEY&PARAMETERS"
-    allowfullscreen>
-</iframe>
-    </div>
+    
   </body>
 </html>
