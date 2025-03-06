@@ -28,16 +28,39 @@
         margin-left: -100px;
       }
 
-      p{
-          font-family:Arial, Helvetica, sans-serif;
-          font-size: 12pt;
-      }
       #text{
+        font-family:Arial, Helvetica, sans-serif;
+          font-size: 12pt;
         position: fixed;  
-        margin-top: 5%;
+        margin-top: 7%;
+        margin-bottom: 0;
         left: 50%;
         transform: translateX(-50%);
+        display: inline;
       }
+      .tooltip:hover .tooltiptext {
+        font-family:Arial, Helvetica, sans-serif;
+
+  visibility: visible;
+}
+.tooltip{
+    font-family:Arial, Helvetica, sans-serif;
+    position: fixed;
+     display: inline;
+    border-bottom: 1px dotted black; 
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 4px;
+    position: absolute;
+  z-index: 1;
+}
         </style>
     </head>
     <body>
@@ -46,6 +69,11 @@
             <button id ="indexbutton"><a href="index.html">Back</a></button>
             <button id ="aboutbutton"><a href>About</a></button>
           </div>
-          <div id="text"><p>Every Word in Chinatown collects the text from the streets of San Francisco's Chinatown.</p></div>
+          <div id="text">Every Word in Chinatown collects the text from the streets of San Francisco's&nbsp;<div class="tooltip"> Chinatown.&nbsp; <span class="tooltiptext">[-122.410281, 37.797486],
+            [-122.410281, 37.787986],
+            [-122.403281,37.787986],
+            [-122.403281, 37.797486]</span>
+          </div></div>
+            
     </body>
 </html>
