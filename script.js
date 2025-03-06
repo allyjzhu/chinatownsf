@@ -11,7 +11,10 @@ let search;
 let map;
 var indexPage = document.getElementById("indexbutton");
 let patchett;
-
+let marker = [];
+let markerDiv =[];
+var popup;
+var popupDisplay = document.getElementsByClassName("mapboxgl-popup");
 
 function parseText(){
       rows = csv.split('\n');
@@ -40,11 +43,12 @@ function showMap(){
         //document.getElementById("search").style.visiblity ="none";
         let latitudes = [];
         let longitudes = [];
+        let popupdescription = [];
         for (i=0; i<rows.length; i++){
                 if (variables[i][2].includes(randomText)){
                     latitudes.push(variables[i][0])
                     longitudes.push(variables[i][1])
-                    
+                    popupdescription.push(variables[i][2])
                 }
         }
         mapboxgl.accessToken = 'pk.eyJ1IjoiYXBwbGVjaGFuY2VyeSIsImEiOiJjbG9qN3R1N2cxaHIyMmlvMzZ4cnhiM2wwIn0.X5C3FF07mIMbQYouvA2ECA';
@@ -52,7 +56,7 @@ function showMap(){
         map = new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/applechancery/cm22bca0u007p01r4bq0dfd8d',
-          center: [-122.406353, 37.794319],
+          center: [-122.406355, 37.794319],
           pitch: 30,
           zoom: 15
           
@@ -60,31 +64,30 @@ function showMap(){
    // const southWest = new mapboxgl.LngLat(-122.410281, 37.797486);
    // const northEast = new mapboxgl.LngLat(-122.403281,37.787986);
    // const boundingBox = new mapboxgl.LngLatBounds(southWest, northEast);
-    
+   
 points = d3.zip(longitudes, latitudes);
-points.forEach(point => {
+  for (i = 0; i < points.length; i++){
     const el = document.createElement('div');
+    popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnMove: true
+  })
+  .setText(popupdescription[i])
+  .setMaxWidth('5000px');
     el.className = 'marker';
-    new mapboxgl.Marker(el)
-      .setLngLat([point[0], point[1]])
-     /*.setPopup(
-        new mapboxgl.Popup({ offset: 25 }) // add popups
-          .setHTML(
-            `<iframe id="irame" width="450" height="250" frameborder="0" style="border: 0px; visibility: visible;" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyApcU9TnYsZCJEnBgJTzOjJ4yDar4NAX7c&amp;location=${point[1]}, ${point[0]}&amp;heading=210&amp;pitch=10&amp;fov=35" allowfullscreen="">
-            </iframe>`
-          )
-      )  */ 
-      .addTo(map);
-  });
+    marker[i] = new mapboxgl.Marker(el)
+      .setLngLat([points[i][0], points[i][1]])
+      .addTo(map)
+      .setPopup(popup);
+  };
+
   map.on('load', () => {
   map.addLayer({
     id: 'line-bounding-box',
-    type: 'line',
+    type: 'fill',
     paint: {
-        'line-color': 'gray',
-        'line-width': 5,
-        'line-opacity': 1,
-        'fill': 'pink'
+      'fill-color': 'blue',
+      'fill-opacity': 0.2
     },
     source: {
         type: 'geojson',
@@ -107,7 +110,27 @@ points.forEach(point => {
         }
     }
 });
+
 });
+/*for (i =0; i< marker.length; i++){
+  markerDiv[i] = marker[i].getElement();
+  markerDiv[i].addEventListener('mouseenter', (e) =>  {
+    map.getCanvas().style.cursor = 'pointer';
+    console.log(e.toElement);
+    const newDiv = e.toElement.createElement("div")
+    newDiv.appendChild(popupdescription[i])
+
+  });
+  markerDiv[i].addEventListener('mouseleave', (e) => {
+
+  });
+
+}*/
+
+
+
+
+
   console.log(points)
 
  /* var testiana = document.getElementsByClassName("mapboxgl-popup-anchor-bottom");
@@ -149,7 +172,6 @@ const target = isAtStart ? end : start;
     duration: 4000, 
     essential: true
   })
-  document.getElementById("irame").style.display = "none";
   search = indexWords.split('\n');
   searchElement = document.getElementById("search");
   const newDiv = document.createElement('div');
@@ -172,6 +194,7 @@ const target = isAtStart ? end : start;
     });
 });
 }
+
 
 function initText(meow){
   document.getElementById('text').textContent = meow;
